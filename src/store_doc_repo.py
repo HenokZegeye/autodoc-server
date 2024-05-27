@@ -12,7 +12,7 @@ def on_rm_error(func, path, exc_info):
 
 def clone_and_replace():
     repo_url = os.environ['DOC_REPO_URL']
-    target_dir = f'../data/documentation'
+    target_dir = f'data/documentation'
     
     temp_dir = tempfile.mkdtemp()
 

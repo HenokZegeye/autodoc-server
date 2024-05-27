@@ -70,7 +70,7 @@ def format_mr_changes(changes, mr_id):
             # Combine with the diff
             line = f"{line} \n\n {non_diff_attrs}\n diff: {change['diff']}"
     
-    with open(f'../data/mr-changes/{mr_id}.txt', 'w') as file:
+    with open(f'data/mr-changes/{mr_id}.txt', 'w') as file:
          file.write(line)
 
 def load_docs(path):
@@ -157,7 +157,7 @@ def refine_code_metadata_format(premr_path, postmr_path, premr_code, postmr_code
     postmr_code = list(map(lambda doc: add_short_path(doc, postmr_path, 'after-new-merge-request'),postmr_code))
 
 def load_doc(path: str):
-    full_path = f'../data/{path}'
+    full_path = f'data/{path}'
     return SimpleDirectoryReader(input_dir=full_path, recursive=True).load_data()
 
 

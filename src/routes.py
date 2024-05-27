@@ -48,9 +48,9 @@ def get_open_merge_requests():
 def setup(bg_tasks: BackgroundTasks=[]):
     try:
         clone_and_replace()
-        path = f"../data/documentation/{os.environ['DOC_TARGET_FOLDER']}"
+        path = f"data/documentation/{os.environ['DOC_TARGET_FOLDER']}"
         docs = load_docs(path)
-        bg_tasks.add_task(add_index, docs, f'../indexes/docs')
+        bg_tasks.add_task(add_index, docs, f'indexes/docs')
         return {"message": f"Documentation Setup Successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to setup: {e}")
@@ -58,7 +58,7 @@ def setup(bg_tasks: BackgroundTasks=[]):
 
 @app.post("/summary")
 async def get_summary(data: PromptPayload):
-    path = f'../indexes/mr-change-summary/{data.mr_id}'
+    path = f'indexes/mr-change-summary/{data.mr_id}'
     index = load_index_from_storage(StorageContext.from_defaults(persist_dir=path))
     summary_engine = create_summary_engine(index)
     prompt = data.prompt_text if data.prompt_text else DEFAULT_SUMMARY_PROMPT
@@ -69,7 +69,7 @@ async def get_summary(data: PromptPayload):
 
 @app.post("/mrchat")
 async def mr_chat(data: ChatPayload):
-    path = f'../indexes/mr-change-summary/{data.mr_id}'
+    path = f'indexes/mr-change-summary/{data.mr_id}'
     index = load_index_from_storage(StorageContext.from_defaults(persist_dir=path))
     chat_engine = index.as_chat_engine()
     print("Question String", data.question)
@@ -79,11 +79,11 @@ async def mr_chat(data: ChatPayload):
 
 @app.post("/get_updated_documentation")
 def get_updated_documentation(data: PromptPayload):
-    path = f"../indexes/docs"
+    path = f"indexes/docs"
     index = load_index_from_storage(StorageContext.from_defaults(persist_dir=path))
     query_engine = index.as_query_engine(streaming=True)
     
-    with open(f'../data/mr-changes/{data.mr_id}.txt') as file:
+    with open(f'data/mr-changes/{data.mr_id}.txt') as file:
         mr_changes = file.read()
     prompt = data.prompt_text if data.prompt_text else get_default_updated_doc_prompt(mr_changes)
     print("Prompt String", prompt)
@@ -100,7 +100,7 @@ def get_merge_request_changes(mr_id: int, bg_tasks: BackgroundTasks=[]):
     filtered_changes = get_filtered_changes(merge_request_changes)
     format_mr_changes(filtered_changes, mr_id)
     documents = create_documents(filtered_changes)
-    bg_tasks.add_task(create_summary_index, documents, f'../indexes/mr-change-summary/{mr_id}')
+    bg_tasks.add_task(create_summary_index, documents, f'indexes/mr-change-summary/{mr_id}')
     
     return [
         MrChangeResponse(
