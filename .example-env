@@ -1,0 +1,27 @@
+FIREWORKS_API_KEY=<your-key>
+OPENAI_API_KEY=<your-key>
+
+GITLAB_API_BASE_URL = https://gitlabe2.ext.net.nokia.com/api/v4
+GITLAB_PROJECT_ID = 69249 # You can find the project id in gitlab UI under the name of the project
+GITLAB_ACCESS_TOKEN = <your-token>
+GITLAB_USERNAME = <your-username>
+
+
+CODE_CHANGE_EXCLUDE_FILE_EXT=lock,toml
+CODE_CHANGE_EXCLUDE_FOLDER_PATHS=integration_tests,examples,tests
+
+# Change the usernamen and access token
+DOC_REPO_URL=https://<username>:<access_token>@gitlabe2.ext.net.nokia.com/llm-autodoc1/documentation.git
+
+DOC_REPO_TARGET_BRANCH=before-new-attachment
+DOC_TARGET_FOLDER=docs/
+DOC_EXCLUDE_FILE_PATHS=APIs/changelog.mdx,Other/other.mdx
+
+
+LLM_MODEL_PROVIDER=OpenAI
+EMD_MODEL_PROVIDER=OpenAI
+EMD_MODEL=text-embedding-3-large
+LLM_MODEL=gpt-3.5-turbo
+
+
+PROXY=http://fihel1d-proxy.emea.nsn-net.net:8080
